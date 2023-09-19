@@ -1,6 +1,8 @@
 import { ICharacter, IClassName } from "../types";
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setPlayer } from "../features/player/playerSlice";
 
 let calculateStyles: string;
 
@@ -10,11 +12,7 @@ function Character({
   className,
   size = "small",
 }: ICharacter & IClassName) {
-  const characterRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    console.log(characterRef.current?.getBoundingClientRect());
-  }, []);
+  const dispatch = useDispatch();
 
   if (name === "paper") {
     calculateStyles = "from-paper-gradient-start to-paper-gradient-end";
@@ -24,16 +22,20 @@ function Character({
     calculateStyles = "from-rock-gradient-start to-rock-gradient-end";
   }
 
+  const chooseCharacter = () => {
+    dispatch(setPlayer({ player: name }));
+  };
+
   const win = false;
 
   return (
     <motion.div
-      ref={characterRef}
       className={`relative bg-gradient-to-t z-20 ${calculateStyles} w-fit ${
         size === "big" ? " p-[18px] md:p-6" : "p-3.5 md:p-5"
       } rounded-full cursor-pointer ${className}`}
       whileHover={size === "small" ? { scale: 1.1 } : { scale: 1.0 }}
       whileTap={size === "small" ? { scale: 0.925 } : { scale: 1.0 }}
+      onClick={size === "small" ? chooseCharacter : () => {}}
     >
       <div
         className={`bg-white ${

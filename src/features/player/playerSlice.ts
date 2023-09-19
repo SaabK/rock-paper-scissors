@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { PlayerState, player } from '../../types';
 
 const initialState: PlayerState & player = {
@@ -9,13 +10,13 @@ export const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    setPlayer: (state, action) => {
-      state.player = action.payload;
+    setPlayer: (state, action: PayloadAction<player>) => {
+      state.player = action.payload.player;
+      console.log(state.player);
     }
   },
 })
 
-// Action creators are generated for each case reducer function
-// export const { } = playerSlice.actions
+export const { setPlayer } = playerSlice.actions;
 
-export default playerSlice.reducer
+export default playerSlice.reducer;

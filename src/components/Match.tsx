@@ -1,20 +1,46 @@
 import scissorsImage from "../assets/icon-scissors.svg";
 import rockImage from "../assets/icon-rock.svg";
+import paperImage from "../assets/icon-paper.svg";
 import Character from "./Character";
 import Result from "./Result";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { choices } from "../data/data";
+import { IOpponent, IResult, player } from "../types";
 
 function Match() {
-  const choosing = false;
+  const [choosing, setChoosing] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
+  const [result, setResult] = useState<IResult>({ result: null });
+  const [opponent, setOpponent] = useState<IOpponent & player>({
+    image: "",
+    player: null,
+  });
+
+  const {
+    player: { player },
+  } = useSelector((state: RootState) => state);
+
+  const image = getImage(player);
 
   useEffect(() => {
-    const t = setTimeout(() => {
-      setVisible(true);
-    }, 2000);
+    setChoosing(true);
+    const showOpponent = setTimeout(() => {
+      setOpponent(generateOpponent());
+      setResult(calculateResult(player, opponent.player));
+      setChoosing(false);
+    }, 1299);
 
-    return () => clearTimeout(t);
+    const showResult = setTimeout(() => {
+      setVisible(true);
+    }, 2400);
+
+    return () => {
+      clearTimeout(showResult);
+      clearTimeout(showOpponent);
+    };
   }, []);
 
   return (
@@ -27,8 +53,8 @@ function Match() {
           You Picked
         </p>
         <Character
-          image={scissorsImage}
-          name="scissors"
+          image={image}
+          name={player}
           size="big"
           className="order-1 md:order-2"
         />
@@ -44,8 +70,8 @@ function Match() {
           <div className="w-32 h-32 md:w-44 md:h-44 bg-radial-gradient-end rounded-full order-1 md:order-2" />
         ) : (
           <Character
-            image={rockImage}
-            name="rock"
+            image={opponent.image}
+            name={opponent.player}
             size="big"
             className="order-1 md:order-2"
           />
@@ -53,6 +79,59 @@ function Match() {
       </div>
     </motion.div>
   );
+}
+
+function getImage(player: string | null) {
+  let image;
+
+  switch (player) {
+    case "paper":
+      image = paperImage;
+      break;
+    case "rock":
+      image = rockImage;
+      break;
+    case "scissors":
+      image = scissorsImage;
+      break;
+    default:
+      image = "";
+      break;
+  }
+
+  return image;
+}
+
+function generateOpponent() {
+  const randomNum = Math.floor(Math.random() * 3);
+  const { player }: player = choices[randomNum];
+
+  const image = getImage(player);
+
+  return {
+    player,
+    image,
+  };
+}
+
+function calculateResult(player: string | null, opponent: string | null) {
+  let result: IResult = {
+    result: null,
+  };
+
+  if (player === "rock" && opponent === "scissors") {
+    result.result = "win";
+  } else if (player === "paper" && opponent === "rock") {
+    result.result = "win";
+  } else if (player === "scissors" && opponent === "paper") {
+    result.result = "win";
+  } else if (player === opponent) {
+    result.result = "draw";
+  } else {
+    result.result = "lose";
+  }
+
+  return result;
 }
 
 export default Match;
