@@ -1,19 +1,25 @@
-import Score from "./Score"
+import Score from "./Score";
 
 function Topbar() {
   return (
-    <header className="mx-auto w-2/4 flex border-2 border-white/30 rounded-xl justify-between items-center p-4">
+    <div className="container">
+      <header className="mx-auto flex border-2 max-w-2xl border-white/30 rounded-xl justify-between items-center p-4 gap-2">
+        <div className="flex flex-col px-2">
+          <span className="text-xl md:text-4xl uppercase leading-5 md:leading-7 font-bold tracking-wide">
+            Rock
+          </span>
+          <span className="text-xl md:text-4xl uppercase leading-5 md:leading-7 font-bold tracking-wide">
+            Paper
+          </span>
+          <span className="text-xl md:text-4xl uppercase leading-5 md:leading-7 font-bold tracking-wide">
+            Scissors
+          </span>
+        </div>
 
-      <div className="flex flex-col px-2">
-        <span className="text-4xl uppercase leading-7 font-bold tracking-wide">Rock</span>
-        <span className="text-4xl uppercase leading-7 font-bold tracking-wide">Paper</span>
-        <span className="text-4xl uppercase leading-7 font-bold tracking-wide">Scissors</span>
-      </div>
-
-      <Score />
-
-    </header>
-  )
+        <Score />
+      </header>
+    </div>
+  );
 }
 
-export default Topbar
+export default Topbar;

@@ -1,6 +1,17 @@
+export interface IClassName {
+  className?: string
+}
+
+export interface player {
+  player: 'rock' | 'scissors' | 'paper' | null
+}
+
 export interface ICharacter {
   image: string,
   name: 'rock' | 'scissors' | 'paper',
-  className?: string,
-  size?: 'big' | 'small'
+  size?: 'big' | 'small',
+} 
+
+export interface PlayerState {
+  
 }
