@@ -15,12 +15,9 @@ export const scoreSlice = createSlice({
       state.score += 1;
       localStorage.setItem("score", JSON.stringify({ score: state.score }));
     },
-    resetScore: (state) => {
-      state = initialState;
-    }
   },
 })
 
-export const { incrementScore, resetScore } = scoreSlice.actions;
+export const { incrementScore } = scoreSlice.actions;
 
 export default scoreSlice.reducer;
