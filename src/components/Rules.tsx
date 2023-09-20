@@ -12,6 +12,9 @@ function Rules() {
 
   return (
     <>
+      <p className="absolute bottom-2 left-2 text-white/80 text-[10px] md:text-sm font-sans">
+        Created By Ali Bin Naseer
+      </p>
       <motion.button
         className="bg-transparent border-2 border-white/60 text-white/90 uppercase tracking-widest px-6 py-1.5 md:px-8 md:py-2 text-sm md:text-base rounded-md self-center md:self-end mx-4 font-thin w-fit"
         onClick={handleClick}
