@@ -1,8 +1,8 @@
 import { ICharacter, IClassName } from "../types";
 import { motion } from "framer-motion";
-import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setPlayer } from "../features/player/playerSlice";
+import { useEffect, useState } from "react";
 
 let calculateStyles: string;
 
@@ -11,8 +11,10 @@ function Character({
   name,
   className,
   size = "small",
+  result,
 }: ICharacter & IClassName) {
   const dispatch = useDispatch();
+  const [winningEffect, setWinningEffect] = useState(false);
 
   if (name === "paper") {
     calculateStyles = "from-paper-gradient-start to-paper-gradient-end";
@@ -26,7 +28,15 @@ function Character({
     dispatch(setPlayer({ player: name }));
   };
 
-  const win = false;
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (result === "win") {
+        setWinningEffect(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(t);
+  }, [result]);
 
   return (
     <motion.div
@@ -46,11 +56,11 @@ function Character({
       >
         <img src={image} className=" w-1/2 h-fit" />
       </div>
-      {win && (
+      {result === "win" && winningEffect && (
         <>
-          <div className="absolute w-full h-full bg-white/[5%] rounded-full top-0 left-0 scale-[1.35]" />
-          <div className="absolute w-full h-full bg-white/[4.5%] rounded-full top-0 left-0 scale-[1.7]" />
-          <div className="absolute w-full h-full bg-white/[4%] rounded-full top-0 left-0 scale-[2.1]" />
+          <div className="overflow-hidden absolute w-full h-full bg-white/[5%] rounded-full top-0 left-0 scale-[1.35]" />
+          <div className="overflow-hidden absolute w-full h-full bg-white/[4.5%] rounded-full top-0 left-0 scale-[1.7]" />
+          <div className="overflow-hidden absolute w-full h-full bg-white/[4%] rounded-full top-0 left-0 scale-[2.1]" />
         </>
       )}
     </motion.div>

@@ -12,7 +12,6 @@ export const playerSlice = createSlice({
   reducers: {
     setPlayer: (state, action: PayloadAction<player>) => {
       state.player = action.payload.player;
-      console.log(state.player);
     }
   },
 })

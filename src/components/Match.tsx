@@ -5,15 +5,17 @@ import Character from "./Character";
 import Result from "./Result";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { choices } from "../data/data";
 import { IOpponent, IResult, player } from "../types";
+import { setResult } from "../features/result/resultSlice";
 
 function Match() {
+  const dispatch = useDispatch();
+
   const [choosing, setChoosing] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
-  const [result, setResult] = useState<IResult>({ result: null });
   const [opponent, setOpponent] = useState<IOpponent & player>({
     image: "",
     player: null,
@@ -21,7 +23,9 @@ function Match() {
 
   const {
     player: { player },
+    result: { result },
   } = useSelector((state: RootState) => state);
+  const calculatedResult = calculateResult(player, opponent.player);
 
   const image = getImage(player);
 
@@ -29,7 +33,6 @@ function Match() {
     setChoosing(true);
     const showOpponent = setTimeout(() => {
       setOpponent(generateOpponent());
-      setResult(calculateResult(player, opponent.player));
       setChoosing(false);
     }, 1299);
 
@@ -42,6 +45,10 @@ function Match() {
       clearTimeout(showOpponent);
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(setResult(calculatedResult));
+  }, [calculatedResult]);
 
   return (
     <motion.div
@@ -57,6 +64,7 @@ function Match() {
           name={player}
           size="big"
           className="order-1 md:order-2"
+          result={result}
         />
       </div>
 
@@ -74,6 +82,9 @@ function Match() {
             name={opponent.player}
             size="big"
             className="order-1 md:order-2"
+            result={
+              result === "win" ? "lose" : result === "draw" ? "draw" : "win"
+            }
           />
         )}
       </div>
@@ -118,6 +129,9 @@ function calculateResult(player: string | null, opponent: string | null) {
   let result: IResult = {
     result: null,
   };
+
+  console.log("Player: ", player);
+  console.log("Opponent: ", opponent);
 
   if (player === "rock" && opponent === "scissors") {
     result.result = "win";

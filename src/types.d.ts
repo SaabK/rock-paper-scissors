@@ -10,7 +10,8 @@ export interface ICharacter {
   image: string,
   name: 'rock' | 'scissors' | 'paper' | null,
   size?: 'big' | 'small',
-} 
+  result?: 'win' | 'lose' | 'draw' | null
+}
 
 export interface PlayerState {
   
