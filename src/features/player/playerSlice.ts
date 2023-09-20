@@ -12,10 +12,13 @@ export const playerSlice = createSlice({
   reducers: {
     setPlayer: (state, action: PayloadAction<player>) => {
       state.player = action.payload.player;
+    },
+    resetPlayer: (state) => {
+      state.player = initialState.player;
     }
   },
 })
 
-export const { setPlayer } = playerSlice.actions;
+export const { setPlayer, resetPlayer } = playerSlice.actions;
 
 export default playerSlice.reducer;

@@ -10,6 +10,8 @@ function App() {
     player: { player },
   } = useSelector((state: RootState) => state);
 
+  console.log(player);
+
   return (
     <div className="h-screen text-white py-5 flex flex-col justify-between">
       <Topbar />

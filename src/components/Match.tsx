@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { choices } from "../data/data";
 import { IOpponent, IResult, player } from "../types";
 import { setResult } from "../features/result/resultSlice";
+import { incrementScore } from "../features/score/scoreSlice";
 
 function Match() {
   const dispatch = useDispatch();
@@ -48,7 +49,10 @@ function Match() {
 
   useEffect(() => {
     dispatch(setResult(calculatedResult));
-  }, [calculatedResult]);
+    if (calculatedResult.result === "win") {
+      dispatch(incrementScore());
+    }
+  }, [calculatedResult.result]);
 
   return (
     <motion.div
@@ -129,9 +133,6 @@ function calculateResult(player: string | null, opponent: string | null) {
   let result: IResult = {
     result: null,
   };
-
-  console.log("Player: ", player);
-  console.log("Opponent: ", opponent);
 
   if (player === "rock" && opponent === "scissors") {
     result.result = "win";

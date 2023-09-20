@@ -24,3 +24,7 @@ export interface IOpponent {
 export interface IResult {
   result: 'win' | 'lose' | 'draw' | null
 }
+
+export interface IScore {
+  score: number
+}

@@ -12,10 +12,13 @@ export const resultSlice = createSlice({
   reducers: {
     setResult: (state, action: PayloadAction<IResult>) => {
       state.result = action.payload.result;
+    },
+    resetResult: (state) => {
+      state.result = initialState.result
     }
   },
 })
 
-export const { setResult } = resultSlice.actions;
+export const { setResult, resetResult } = resultSlice.actions;
 
 export default resultSlice.reducer;
