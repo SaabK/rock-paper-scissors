@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { IScore } from '../../types';
 
 const initialState: IScore  = {
-  score: JSON.parse(localStorage.getItem("score")!).score || 0
+  score: JSON.parse(localStorage.getItem("score")!)?.score || 0
 }
 
 console.log(initialState.score);
