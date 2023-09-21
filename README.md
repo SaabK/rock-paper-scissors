@@ -26,7 +26,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Rock Paper Scissors](https://your-live-site-url.com)
+- Live Site URL: [Rock Paper Scissors](https://rps-ibn-naseer.netlify.app/)
 
 ## My process
 
